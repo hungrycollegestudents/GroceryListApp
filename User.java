@@ -17,8 +17,8 @@ public class User {
     }
     
     public int getId(){
-        return id;
-    }
+        return userId
+;    }
     
     public String getUserName(){
         return userName;
@@ -30,7 +30,8 @@ public class User {
     }
     
     public void deleteChecklist(int index){ // how to pass index
-        userLists.remove(index); // remove one specific list
+        if (index >= 0 && index < userLists.size())
+         userLists.remove(index); // remove one specific list
     }
     
     public void deleteAllChecklist(){
