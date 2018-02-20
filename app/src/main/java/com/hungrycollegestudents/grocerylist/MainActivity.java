@@ -1,4 +1,4 @@
-package me.brunson.testapplication;
+package com.hungrycollegestudents.grocerylist;
 
 import android.os.Bundle;
 import android.support.annotation.NonNull;
@@ -7,12 +7,7 @@ import android.support.v7.app.AppCompatActivity;
 import android.view.MenuItem;
 import android.widget.TextView;
 
-import com.android.volley.Cache;
-import com.android.volley.Network;
 import com.android.volley.RequestQueue;
-import com.android.volley.toolbox.BasicNetwork;
-import com.android.volley.toolbox.DiskBasedCache;
-import com.android.volley.toolbox.HurlStack;
 import com.android.volley.toolbox.Volley;
 
 public class MainActivity extends AppCompatActivity {
@@ -48,16 +43,31 @@ public class MainActivity extends AppCompatActivity {
         BottomNavigationView navigation = (BottomNavigationView) findViewById(R.id.navigation);
         navigation.setOnNavigationItemSelectedListener(mOnNavigationItemSelectedListener);
 
-        // Instantiate the cache
-        Cache cache = new DiskBasedCache(getCacheDir(), 1024 * 1024); // 1MB cap
-
-    // Set up the network to use HttpURLConnection as the HTTP client.
-        Network network = new BasicNetwork(new HurlStack());
 
         RequestQueue queue = Volley.newRequestQueue(this.getApplicationContext());
-        API api = new API(queue);
-        api.queryItem("bread");
-        //queue.start();
+
+        //Get text view display object (from activity_main.xml)
+        final TextView textView = findViewById(R.id.textView);
+
+        //Create object that adapts http json API (probably should change to singleton)
+        APIAdapter api = new APIAdapter(queue);
+
+        //Run the search. Pass in a "search listener" object with an onComplete() method.
+        //Since the search is asynchronous, it will call onComplete() with an Item object when its finished
+        api.queryItem("bread", new APIAdapter.SearchListener() {
+
+            @Override
+            public void onComplete(Item item) {
+                //This method will be run when the search is finished.
+                //item is an Item object. It will be the top/first item returned from the search
+
+                //Set the text on the view
+                String text = "from API: " +  item.getName() + " $" + item.getPrice();
+                textView.setText(text);
+            }
+
+        });
+
 
     }
 

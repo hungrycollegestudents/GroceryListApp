@@ -1,4 +1,4 @@
-package me.brunson.testapplication;
+package com.hungrycollegestudents.grocerylist;
 
 import android.content.Context;
 import android.support.test.InstrumentationRegistry;

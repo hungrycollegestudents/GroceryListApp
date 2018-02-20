@@ -1,4 +1,4 @@
-package me.brunson.testapplication;
+package com.hungrycollegestudents.grocerylist;
 
 import org.junit.Test;
 

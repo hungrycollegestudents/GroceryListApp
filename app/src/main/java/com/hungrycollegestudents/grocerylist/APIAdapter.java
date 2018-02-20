@@ -1,4 +1,4 @@
-package me.brunson.testapplication;
+package com.hungrycollegestudents.grocerylist;
 
 import android.util.Log;
 
@@ -12,31 +12,29 @@ import com.android.volley.toolbox.JsonObjectRequest;
 import org.json.JSONException;
 import org.json.JSONObject;
 
-/**
- * Created by jacob on 1/30/18.
- */
 
-public class API {
+public class APIAdapter {
 
     private RequestQueue queue;
 
-    public API(RequestQueue queue) {
+    public APIAdapter(RequestQueue queue) {
         this.queue = queue;
     }
 
-    public void queryItem(String name) {
+    public void queryItem(String name, final SearchListener listener) {
         String url = String.format(
-                "http://api.walmartlabs.com/v1/search?query=%s&sort=price&order=asc&format=json&apiKey=v787ajf5jpa8tm885drd5b2g",
+                "http://www.mocky.io/v2/5a8c9a783000005700323f9c",
                 name);
         JsonObjectRequest jsObjRequest = new JsonObjectRequest
             (Request.Method.GET, url, null, new Response.Listener<JSONObject>() {
                 @Override
                 public void onResponse(JSONObject response) {
                     try {
-                        JSONObject item = response.getJSONArray("items").getJSONObject(0);
-                        Log.d("idk", String.valueOf(item.getInt("upc")));
-                        Log.d("idk", item.getString("name"));
-                        Log.d("idk", String.valueOf(item.getDouble("salePrice")));
+                        JSONObject jsonItem = response.getJSONArray("items").getJSONObject(0);
+
+                        Item item = new Item(jsonItem.getString("name"), jsonItem.getDouble("price"));
+
+                        listener.onComplete(item);
                     } catch (JSONException e) {
                         e.printStackTrace();
                     }
@@ -52,6 +50,12 @@ public class API {
             });
 
         queue.add(jsObjRequest);
+    }
+
+    public abstract static class SearchListener {
+
+        public abstract void onComplete(Item item);
+
     }
 
 }
