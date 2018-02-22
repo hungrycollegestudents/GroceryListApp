@@ -64,6 +64,9 @@ public class MainActivity extends AppCompatActivity {
                 //Set the text on the view
                 String text = "from API: " +  item.getName() + " $" + item.getPrice();
                 textView.setText(text);
+
+                //Can make LineItem like this:
+                LineItem lineItem = new LineItem(item, 2); //quantity 2
             }
 
         });

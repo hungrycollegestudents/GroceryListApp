@@ -32,7 +32,10 @@ public class APIAdapter {
                     try {
                         JSONObject jsonItem = response.getJSONArray("items").getJSONObject(0);
 
-                        Item item = new Item(jsonItem.getString("name"), jsonItem.getDouble("price"));
+                        String name = jsonItem.getString("name");
+                        Price price = new Price(jsonItem.getDouble("price"));
+
+                        Item item = new Item(name, price);
 
                         listener.onComplete(item);
                     } catch (JSONException e) {

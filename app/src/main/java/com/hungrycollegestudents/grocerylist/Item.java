@@ -3,10 +3,10 @@ package com.hungrycollegestudents.grocerylist;
 public class Item {
 
     private String name;
-    private double price;
+    private Price price;
     private int upc;
 
-    public Item(String name, double price) {
+    public Item(String name, Price price) {
         this.name = name;
         this.price = price;
     }
@@ -15,7 +15,7 @@ public class Item {
         return name;
     }
 
-    public double getPrice() {
+    public Price getPrice() {
         return price;
     }
 }
